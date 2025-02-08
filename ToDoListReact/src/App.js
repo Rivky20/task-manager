@@ -13,18 +13,18 @@ function App() {
   async function createTodo(e) {
     e.preventDefault();
     await service.addTask(newTodo);
-    setNewTodo("");//clear input
-    await getTodos();//refresh tasks list (in order to see the new one)
+    setNewTodo("");
+    await getTodos();
   }
 
   async function updateCompleted(todo, isComplete) {
-    await service.setCompleted(todo.id, isComplete);
-    await getTodos();//refresh tasks list (in order to see the updated one)
+    await service.setCompleted(todo.id, isComplete, todo.name);
+    await getTodos();
   }
 
   async function deleteTodo(id) {
     await service.deleteTask(id);
-    await getTodos();//refresh tasks list
+    await getTodos();
   }
 
   useEffect(() => {
@@ -36,7 +36,8 @@ function App() {
       <header className="header">
         <h1>todos</h1>
         <form onSubmit={createTodo}>
-          <input className="new-todo" placeholder="Well, let's take on the day" value={newTodo} onChange={(e) => setNewTodo(e.target.value)} />
+          <input className="new-todo" placeholder="Well, let's take on the day" value={newTodo} onChange={(e) => 
+            setNewTodo(e.target.value)} />
         </form>
       </header>
       <section className="main" style={{ display: "block" }}>
@@ -45,7 +46,8 @@ function App() {
             return (
               <li className={todo.isComplete ? "completed" : ""} key={todo.id}>
                 <div className="view">
-                  <input className="toggle" type="checkbox" defaultChecked={todo.isComplete} onChange={(e) => updateCompleted(todo, e.target.checked)} />
+                  <input className="toggle" type="checkbox" defaultChecked={todo.isComplete} onChange={(e) => 
+                    updateCompleted(todo, e.target.checked)} />
                   <label>{todo.name}</label>
                   <button className="destroy" onClick={() => deleteTodo(todo.id)}></button>
                 </div>

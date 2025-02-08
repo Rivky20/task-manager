@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
 using TodoApi;
 using Microsoft.EntityFrameworkCore;
 
