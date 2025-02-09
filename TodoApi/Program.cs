@@ -3,10 +3,15 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionString = builder.Configuration.GetConnectionString("ToDoDB");
-builder.Services.AddDbContext<ToDoDbContext>(options =>
-    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+var connectionString = builder.Configuration.GetConnectionString("ToDoListDB");
 
+// builder.Services.AddDbContext<ToDoDbContext>(options =>
+//     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+builder.Services.AddDbContext<ToDoDbContext>(options =>
+    options.UseMySql(builder.Configuration.GetConnectionString("ToDoDB") ?? 
+                     Environment.GetEnvironmentVariable("ToDoDB"),
+                     new MySqlServerVersion(new Version(8, 0, 0))));
+                     
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(builder =>
